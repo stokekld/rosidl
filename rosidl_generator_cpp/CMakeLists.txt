@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(rosidl_generator_cpp)
 
+include(CheckLibraryExists)
+check_library_exists(atomic __atomic_load_8 "" HAVE_LIBATOMICS)
+
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 
@@ -51,6 +54,9 @@ if(BUILD_TESTING)
     ament_target_dependencies(test_msg_builder
       rosidl_runtime_cpp
       rosidl_runtime_c)
+    if(HAVE_LIBATOMICS)
+      target_link_libraries(test_msg_builder atomic)
+    endif()
   endif()
   ament_add_gtest(test_msg_initialization test/test_msg_initialization.cpp)
   if(TARGET test_msg_initialization)
@@ -81,6 +87,9 @@ if(BUILD_TESTING)
     target_include_directories(test_interfaces_cpp PUBLIC
       ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     )
+    if(HAVE_LIBATOMICS)
+      target_link_libraries(test_interfaces_cpp atomic)
+    endif()
   endif()
   ament_add_gtest(test_msg_datatype test/test_msg_datatype.cpp)
   if(TARGET test_msg_datatype)
