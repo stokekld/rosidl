@@ -88,6 +88,9 @@ if(BUILD_TESTING)
     ${PROJECT_NAME}_interfaces__${PROJECT_NAME}
     ${rosidl_runtime_c_LIBRARIES}
   )
+  if(HAVE_LIBATOMICS)
+    target_link_libraries(test_interfaces_c atomic)
+  endif()
   target_include_directories(test_interfaces_c PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     ${rosidl_runtime_c_INCLUDE_DIRS}
