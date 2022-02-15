@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(rosidl_generator_c C)
 
+include(CheckLibraryExists)
+check_library_exists(atomic __atomic_load_8 "" HAVE_LIBATOMICS)
+
 # Default to C11
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
@@ -74,6 +77,9 @@ if(BUILD_TESTING)
     ${PROJECT_NAME}_interfaces__${PROJECT_NAME}
     ${rosidl_runtime_c_LIBRARIES}
   )
+  if(HAVE_LIBATOMICS)
+    target_link_libraries(test_compilation_c atomic)
+  endif()
   target_include_directories(test_compilation_c PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     ${rosidl_runtime_c_INCLUDE_DIRS}
@@ -90,6 +96,9 @@ if(BUILD_TESTING)
     ${PROJECT_NAME}_interfaces__${PROJECT_NAME}
     ${rosidl_runtime_c_LIBRARIES}
   )
+  if(HAVE_LIBATOMICS)
+    target_link_libraries(test_invalid_initialization_c atomic)
+  endif()
   target_include_directories(test_invalid_initialization_c PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     ${rosidl_runtime_c_INCLUDE_DIRS}
