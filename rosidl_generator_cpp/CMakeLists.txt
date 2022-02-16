@@ -67,6 +67,9 @@ if(BUILD_TESTING)
     target_include_directories(test_msg_initialization PUBLIC
       ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     )
+    if(HAVE_LIBATOMICS)
+      target_link_libraries(test_msg_initialization atomic)
+    endif()
   endif()
   ament_add_gtest(test_srv_initialization test/test_srv_initialization.cpp)
   if(TARGET test_srv_initialization)
@@ -77,6 +80,9 @@ if(BUILD_TESTING)
     target_include_directories(test_srv_initialization PUBLIC
       ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     )
+    if(HAVE_LIBATOMICS)
+      target_link_libraries(test_srv_initialization atomic)
+    endif()
   endif()
   ament_add_gtest(test_interfaces_cpp test/test_interfaces.cpp)
   if(TARGET test_interfaces_cpp)
@@ -100,6 +106,9 @@ if(BUILD_TESTING)
     target_include_directories(test_msg_datatype PUBLIC
       ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     )
+    if(HAVE_LIBATOMICS)
+      target_link_libraries(test_interfaces_cpp atomic)
+    endif()
   endif()
   ament_add_gtest(test_name test/test_name.cpp)
   if(TARGET test_name)
@@ -110,6 +119,9 @@ if(BUILD_TESTING)
     target_include_directories(test_name PUBLIC
       ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     )
+    if(HAVE_LIBATOMICS)
+      target_link_libraries(test_name atomic)
+    endif()
   endif()
   ament_add_gtest(test_traits test/test_traits.cpp)
   if(TARGET test_traits)
@@ -120,6 +132,9 @@ if(BUILD_TESTING)
     target_include_directories(test_traits PUBLIC
       ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}
     )
+    if(HAVE_LIBATOMICS)
+      target_link_libraries(test_interfaces_cpp atomic)
+    endif()
   endif()
 endif()
 
