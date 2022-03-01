@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(rosidl_runtime_c C)
 
+include(CheckLibraryExists)
+check_library_exists(atomic __atomic_load_8 "" HAVE_LIBATOMICS)
+
 # Default to C11
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
@@ -109,6 +112,9 @@ if(BUILD_TESTING)
   if(TARGET benchmark_string_conversion)
     target_include_directories(benchmark_string_conversion PUBLIC include)
     target_link_libraries(benchmark_string_conversion ${PROJECT_NAME})
+    if(HAVE_LIBATOMICS)
+      target_link_libraries(benchmark_string_conversion atomic)
+    endif()
   endif()
 endif()
 
